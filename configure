@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Verificar la presencia del compilador GCC
+if ! command -v gcc &> /dev/null; then
+    echo "Error: GCC no está instalado en el sistema."
+    exit 1
+fi
+
+# Verificar la presencia de otras dependencias
+# Por ejemplo, si tu proyecto depende de una biblioteca específica
+if ! command -v nombre_dependencia &> /dev/null; then
+    echo "Error: La dependencia 'nombre_dependencia' no está instalada."
+    exit 1
+fi
+
+# Más verificaciones de dependencias según sea necesario
+# ...
+
+echo "Configuración completada."
+exit 0
