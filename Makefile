@@ -12,9 +12,9 @@ OBJS=$(SRCS:.c=.o)
 # Nombre del ejecutable
 TARGET=gcj_debian
 
-# Regla para el objetivo principal
+# Regla principal para compilar el proyecto
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 # Regla para generar archivos objeto
 %.o: %.c
