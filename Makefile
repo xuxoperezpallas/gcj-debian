@@ -24,4 +24,8 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(OBJS) $(TARGET)
 
-.PHONY: clean
+# Regla para generar el proyecto de Visual Studio
+generate_vs_project:
+	mkdir -p vs_project
+	cd vs_project && cmake -G "Visual Studio 16 2019" ..
+	@echo "Proyecto de Visual Studio generado en el directorio 'vs_project'."
