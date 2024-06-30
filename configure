@@ -1,23 +1,23 @@
 #!/bin/bash
 
-# Verificación de herramientas de compilación
-echo "Verificando herramientas de compilación..."
+# Check for required tools
+echo "Checking for required tools..."
 if ! command -v gcc &> /dev/null
 then
-    echo "gcc no está instalado. Instálalo y vuelve a intentarlo."
+    echo "gcc is not installed. Please install it and try again."
     exit 1
 fi
 
 if ! command -v javac &> /dev/null
 then
-    echo "javac no está instalado. Instálalo y vuelve a intentarlo."
+    echo "javac is not installed. Please install it and try again."
     exit 1
 fi
 
-echo "Todas las herramientas necesarias están instaladas."
+echo "All required tools are installed."
 
-# Configuración del proyecto
-echo "Configurando el proyecto..."
-# Aquí puedes agregar más configuraciones según sea necesario
+# Project setup
+echo "Setting up the project..."
+# Add more setup steps as needed
 
-echo "Configuración completada."
+echo "Setup complete."
