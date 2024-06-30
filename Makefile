@@ -1,44 +1,44 @@
-# Configuración de variables
+# Variables configuration
 CC=gcc
 CFLAGS=-Wall -Wextra -I./include
 LDFLAGS=
 
-# Lista de archivos fuente C
+# C source files
 SRCS=$(wildcard src/c/*.c)
 
-# Lista de objetos generados
+# Object files
 OBJS=$(SRCS:.c=.o)
 
-# Lista de archivos fuente Java
+# Java source files
 JAVA_SRCS=$(wildcard src/java/*.java)
 
-# Lista de archivos de clase generados
+# Java class files
 CLASSES=$(JAVA_SRCS:.java=.class)
 
-# Nombre del ejecutable
+# Target executable
 TARGET=gcj_debian
 
-# Regla principal para compilar el proyecto
+# Main rule to compile the project
 $(TARGET): $(OBJS) $(CLASSES)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
-# Regla para generar archivos objeto
+# Rule to generate object files
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-# Regla para compilar archivos Java
+# Rule to compile Java files
 %.class: %.java
 	javac -d bin $<
 
-# Regla para limpiar archivos generados
+# Rule to clean generated files
 clean:
 	rm -f $(OBJS) $(CLASSES) $(TARGET)
 	rm -rf vs_project
 
-# Regla para generar el proyecto de Visual Studio
+# Rule to generate the Visual Studio project
 generate_vs_project:
 	mkdir -p vs_project
 	cd vs_project && cmake -G "Visual Studio 16 2019" ..
-	@echo "Proyecto de Visual Studio generado en el directorio 'vs_project'."
+	@echo "Visual Studio project generated in the 'vs_project' directory."
 
 .PHONY: clean generate_vs_project
