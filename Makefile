@@ -15,6 +15,15 @@ JAVA_SRCS=$(wildcard src/java/*.java)
 # Java class files
 CLASSES=$(JAVA_SRCS:.java=.class)
 
+# Test C++ source files
+TEST_SRCS=$(wildcard tests/*.cpp)
+
+# Test object files
+TEST_OBJS=$(TEST_SRCS:.cpp=.o)
+
+# Test executable
+TEST_TARGET=test_suite
+
 # Target executable
 TARGET=gcj_debian
 
@@ -37,11 +46,29 @@ $(TARGET): $(OBJS) $(CLASSES)
 
 # Rule to clean generated files
 clean:
-	rm -f $(OBJS) $(CLASSES) $(TARGET)
+	rm -f $(OBJS) $(CLASSES) $(TARGET) $(TEST_OBJS) $(TEST_TARGET)
 	rm -rf vs_project
 
 # Rule to generate Visual Studio project on Windows
 generate_vs_project:
 ifeq ($(UNAME_S),MINGW64_NT)
 	mkdir -p vs_project
-	cd vs_project && cmake -G
+	cd vs_project && cmake -G "Visual Studio 16 2019" ..
+	@echo "Visual Studio project generated in the 'vs_project' directory."
+else
+	@echo "Visual Studio project generation is only available on Windows."
+endif
+
+# Rule for tests
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
+
+# Rule to compile the test suite
+$(TEST_TARGET): $(TEST_OBJS)
+	$(CC) $(CFLAGS) -o $@ $(TEST_OBJS) -lgtest -lgtest_main -pthread
+
+# Test object files generation
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+.PHONY: clean generate_vs_project test
