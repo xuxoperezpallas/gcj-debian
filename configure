@@ -14,6 +14,14 @@ then
     exit 1
 fi
 
+# Check for GoogleTest on Linux
+if [[ "$(uname)" == "Linux" ]]; then
+    if ! dpkg -l | grep -qw "libgtest-dev"; then
+        echo "GoogleTest is not installed. Please install it by running 'sudo apt install libgtest-dev'."
+        exit 1
+    fi
+fi
+
 echo "All required tools are installed."
 
 # Project setup
