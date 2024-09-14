@@ -18,7 +18,12 @@ CLASSES=$(JAVA_SRCS:.java=.class)
 # Target executable
 TARGET=gcj_debian
 
+# OS Detection for Windows or Linux
+UNAME_S := $(shell uname -s)
+
 # Main rule to compile the project
+all: $(TARGET)
+
 $(TARGET): $(OBJS) $(CLASSES)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
@@ -35,10 +40,8 @@ clean:
 	rm -f $(OBJS) $(CLASSES) $(TARGET)
 	rm -rf vs_project
 
-# Rule to generate the Visual Studio project
+# Rule to generate Visual Studio project on Windows
 generate_vs_project:
+ifeq ($(UNAME_S),MINGW64_NT)
 	mkdir -p vs_project
-	cd vs_project && cmake -G "Visual Studio 16 2019" ..
-	@echo "Visual Studio project generated in the 'vs_project' directory."
-
-.PHONY: clean generate_vs_project
+	cd vs_project && cmake -G
