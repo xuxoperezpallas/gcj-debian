@@ -24,6 +24,9 @@ TEST_OBJS=$(TEST_SRCS:.cpp=.o)
 # Test executable
 TEST_TARGET=test_suite
 
+# JUnit test files
+JAVA_TEST_SRCS=$(wildcard tests/java/*.java)
+
 # Target executable
 TARGET=gcj_debian
 
@@ -60,10 +63,10 @@ else
 endif
 
 # Rule for tests
-test: $(TEST_TARGET)
+test: $(TEST_TARGET) test_java
 	./$(TEST_TARGET)
 
-# Rule to compile the test suite
+# Rule to compile the test suite for C++
 $(TEST_TARGET): $(TEST_OBJS)
 	$(CC) $(CFLAGS) -o $@ $(TEST_OBJS) -lgtest -lgtest_main -pthread
 
@@ -71,4 +74,11 @@ $(TEST_TARGET): $(TEST_OBJS)
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-.PHONY: clean generate_vs_project test
+# Rule to compile and run Java tests using JUnit
+test_java: $(JAVA_TEST_SRCS)
+	@echo "Compiling Java test files..."
+	javac -cp .:junit-4.13.2.jar:hamcrest-core-1.3.jar -d bin $(JAVA_TEST_SRCS)
+	@echo "Running Java tests with JUnit..."
+	java -cp ./bin:junit-4.13.2.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore TestSample
+
+.PHONY: clean generate_vs_project test test_java
