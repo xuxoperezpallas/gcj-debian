@@ -22,6 +22,17 @@ if [[ "$(uname)" == "Linux" ]]; then
     fi
 fi
 
+# Check for JUnit
+if [ ! -f "junit-4.13.2.jar" ]; then
+    echo "JUnit JAR file (junit-4.13.2.jar) is missing. Please download it from https://junit.org/junit4/."
+    exit 1
+fi
+
+if [ ! -f "hamcrest-core-1.3.jar" ]; then
+    echo "Hamcrest core JAR file (hamcrest-core-1.3.jar) is missing. Please download it."
+    exit 1
+fi
+
 echo "All required tools are installed."
 
 # Project setup
