@@ -1,6 +1,6 @@
 # Variables configuration
 CC=gcc
-CFLAGS=-Wall -Wextra -I./include
+CFLAGS=-Wall -Wextra -I./include -fPIC
 LDFLAGS=
 
 # C source files
@@ -68,7 +68,8 @@ test: $(TEST_TARGET) test_java
 
 # Rule to compile the test suite for C++
 $(TEST_TARGET): $(TEST_OBJS)
-	$(CC) $(CFLAGS) -o $@ $(TEST_OBJS) -lgtest -lgtest_main -pthread
+	$(CC) $(CFLAGS) -o $@ $(TEST_OBJS) -lgtest -lgtest_main -pthread -no-pie
+
 
 # Test object files generation
 %.o: %.cpp
